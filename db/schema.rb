@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "events", force: :cascade do |t|
+    t.integer "user_id" 
+    t.integer "artist_id" 
     t.integer "rating"
     t.string "comments"
     t.string "venue"
