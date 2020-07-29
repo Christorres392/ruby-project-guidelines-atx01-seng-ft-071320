@@ -20,6 +20,11 @@ class Artist < ActiveRecord::Base
         artist_ratings.sum.to_f / artist_ratings.length
     end
 
-
+    def artist_comments
+        artist_events.map do |event|
+            event.comments
+        end
+    end
+    
 end
 
