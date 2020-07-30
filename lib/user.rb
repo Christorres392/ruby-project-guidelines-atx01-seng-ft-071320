@@ -24,12 +24,16 @@ require "pry"
         end
     end
 
-    def return_artists
-        all_artist = []
-        my_artists_ids.each { |id| all_artist << Artist.all.find_by(id: id) }
-        binding.pry
-    end         
+    # def return_artists
+    #     all_artist = []
+    #     my_artists_ids.each { |id| all_artist << Artist.all.find_by(id: id) }
+    #     binding.pry
+    # end         
     
+    def return_artists
+      all = my_artists_ids.map { |artist_id| Artist.all.find_by(id: artist_id) }
+    end
+
         
         
   end   
