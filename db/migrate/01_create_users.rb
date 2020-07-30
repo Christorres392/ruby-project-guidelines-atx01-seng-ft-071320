@@ -9,7 +9,3 @@ class CreateUsers < ActiveRecord::Migration[6.0]
     end
   end
    
-
-  User.create(name: "Martin", genre:"Rock", location: "Houston" )
-  User.create(name:"Chris", genre: "Rock", location: "San Antonio" )
-  User.create(name: "Charlie", genre: "Reggae", location: "Austin")
