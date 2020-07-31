@@ -11,11 +11,13 @@ require "pry"
   end
 
     def events_display
-        user_events.map do |events|
-            events.rating
-            events.comments
+        # user_events.map do |events|
+        #     events.venue
+        #     events.rating
+        #     events.comments
+        Event.all.select { |event| event.user_id == self.id }
         end
-    end
+  
 
     def my_artists_ids
         events.all.map do |event|
@@ -24,14 +26,16 @@ require "pry"
         end
     end
 
-    # def return_artists
-    #     all_artist = []
-    #     my_artists_ids.each { |id| all_artist << Artist.all.find_by(id: id) }
-    #     binding.pry
-    # end         
+    def return_artists
+        my_artists_ids.map { |artist_id| Artist.all.find_by(id: artist_id) } 
+      
+    end         
     
     def past_concerts
-      # all = my_artists_ids.map { |artist_id| Artist.all.find_by(id: artist_id) }
+      # # all = my_artists_ids.map { |artist_id| Artist.all.find_by(id: artist_id) } 
+      # all.map do |artist| 
+      #   artist.name
+      # end
       find_artist = $prompt.ask("Whose concerts would you like to see?", required: true)
       response= RestClient.get "https://api.songkick.com/api/3.0/search/artists.json?apikey=ot7CkbkP8gtSafPh&query=#{find_artist}"
       
@@ -74,7 +78,7 @@ require "pry"
     end
 
     def user_profile
-      user_choice2 = $prompt.select("What would you like to see?", %w(Rate_event My_profile))
+      user_choice2 = $prompt.select("What would you like to see?", %w(Rate_event View_my_events View_my_artists))
       case user_choice2
       when "Rate_event" 
         add_artist = $prompt.ask("what artist did you watch ?")
@@ -91,12 +95,50 @@ require "pry"
         add_comments = $prompt.ask("Any additional comments")
         new_event = Event.create(artist_id: new_artist.id, user_id: self.id, venue: add_event, rating: add_rating, comments: add_comments)
         puts "event added to profile"
-       
-      end
-    end
+        @controller.user_choices
+         end
 
+        case user_choice2
+        when "View_my_events"
+          self.events_display
+          binding.pry
+        end
+
+        case user_choice2
+        when "View_my_artists"
+            artist_names = return_artists.map do |artist|
+                artist.name
+            end
+            # user_choice = $prompt.select("What artist would you like more info on?", artist_names)
+            artist_names.each do |result| 
+            puts result
+            end
+        end
+      end
+ 
+    
+    def similar_artist
+      # all = my_artists_ids.map { |artist_id| Artist.all.find_by(id: artist_id) }
+      find_artist = $prompt.ask("view similar artist to your entry", required: true)
+      response= RestClient.get "https://api.songkick.com/api/3.0/search/artists.json?apikey=ot7CkbkP8gtSafPh&query=#{find_artist}"
+      
+
+      parsed_response = JSON.parse(response.body)
+      
+      artist_id = parsed_response["resultsPage"]["results"]["artist"][0]["id"]
+      response2 = RestClient.get "https://api.songkick.com/api/3.0/artists/#{artist_id}/similar_artists.json?apikey=ot7CkbkP8gtSafPh"
+      
 
       
-        
+      parsed_response2 = JSON.parse(response2.body)
+            results = parsed_response2["resultsPage"]["results"]["artist"].map do |events|
+        events["displayName"]
+            end
+       
+       results.each do |result| 
+        puts result
+       end 
+    end
+   
         
   end   
