@@ -15,7 +15,7 @@ class Controller
            q.suffix 'Y/N'
          end
        if yes_or_no 
-        Controller.new_user 
+        new_user 
        else
          user_profile      
        end
@@ -47,6 +47,16 @@ class Controller
           @user.user_profile
          
         end
+    end
+
+    def new_user
+      puts "welcome to the jungle."
+      username = $prompt.ask("what is your username ?")
+      genre = $prompt.ask("what is your favorite genre ?")
+
+      @user = User.create(name: username, genre: genre)
+      self.user_choices
+      
     end
 
 end

@@ -11,12 +11,23 @@ require "pry"
   end
 
     def events_display
-        # user_events.map do |events|
-        #     events.venue
-        #     events.rating
-        #     events.comments
-        Event.all.select { |event| event.user_id == self.id }
+        user_events.map do |events|
+          puts "\n" * 3
+         puts "artist name:"
+         puts events.artist.name
+         
+         puts  "city/venue/date:"
+         puts events.venue
+         
+         puts  "rating:"
+         puts events.rating
+        
+         puts  "comments:"
+         puts events.comments
+        # Event.all.select { |event| event.user_id == self.id }
         end
+    end
+    # Artist.all.find_by(id: )
   
 
     def my_artists_ids
@@ -101,8 +112,15 @@ require "pry"
         case user_choice2
         when "View_my_events"
           self.events_display
-          binding.pry
+      
         end
+        
+        def return_artist_name
+          return_artists.map do |artist|
+            artist.name
+          end
+        end
+
 
         case user_choice2
         when "View_my_artists"
@@ -139,6 +157,6 @@ require "pry"
         puts result
        end 
     end
-   
+ 
         
   end   
