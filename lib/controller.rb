@@ -29,19 +29,20 @@ class Controller
         end 
     
     def user_choices
-        user_choice = $prompt.select("What would you like to see?", %w(Past_concerts Artist_ratings Comments))
-    
-        if user_choice = "Past_concerts"
-            @user.return_artists
-              
+        user_choice = $prompt.select("What would you like to see?", %w(Past_concerts Future_concerts User_profile Comments))
+        case user_choice
+        when "Past_concerts"
+           @user.past_concerts
         end
-end
+        case user_choice
+        when "Future_concerts"
+            @user.future_concerts
+        end
+        case user_choice
+        when "User_profile"
+          @user.user_profile
+         
+        end
+    end
 
-
-
-
-
-
- 
-    
 end
