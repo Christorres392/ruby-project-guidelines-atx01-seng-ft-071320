@@ -13,19 +13,26 @@ require "pry"
     def events_display
         user_events.map do |events|
           puts "\n" * 3
-         puts "artist name:"
-         puts events.artist.name
-         
-         puts  "city/venue/date:"
+        #  puts "artist name:".colorize(:black ).colorize( :background => :white)
+         puts events.artist.name.colorize(:red ).colorize( :background => :white)
+         puts "\n"
          puts events.venue
-         
-         puts  "rating:"
+         puts "\n"
+         puts  "rating:".colorize(:red)
          puts events.rating
-        
-         puts  "comments:"
+         puts "\n"
+         puts  "comments:".colorize(:red)
          puts events.comments
-        # Event.all.select { |event| event.user_id == self.id }
+         puts "\n"
         end
+
+         user_choice =$prompt.select("What would you like to do?", %w(Back_to_main_menu) )
+        case user_choice
+        when "Back_to_main_menu"
+           self.user_profile
+        end
+         # Event.all.select { |event| event.user_id == self.id }
+       
     end
     # Artist.all.find_by(id: )
   
@@ -106,7 +113,12 @@ require "pry"
         add_comments = $prompt.ask("Any additional comments")
         new_event = Event.create(artist_id: new_artist.id, user_id: self.id, venue: add_event, rating: add_rating, comments: add_comments)
         puts "event added to profile"
-        @controller.user_choices
+        
+        user_choice =$prompt.select("What would you like to do?", %w(Back_to_main_menu) )
+          case user_choice
+          when "Back_to_main_menu"
+             self.user_profile
+          end
          end
 
         case user_choice2
@@ -131,6 +143,11 @@ require "pry"
             artist_names.each do |result| 
             puts result
             end
+            user_choice =$prompt.select("What would you like to do?", %w(Back_to_main_menu) )
+              case user_choice
+              when "Back_to_main_menu"
+                 self.user_profile
+              end
         end
       end
  

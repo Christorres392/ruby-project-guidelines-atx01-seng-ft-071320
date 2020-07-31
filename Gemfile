@@ -9,6 +9,7 @@ gem "rake"
 gem "tty-prompt"
 gem "json"
 gem 'rest-client', '~> 2.1'
+gem 'colorize', '~> 0.8.1'
 
 
 
